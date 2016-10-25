@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactNative, {
     StyleSheet,
     Text,
@@ -7,7 +7,6 @@ import ReactNative, {
     Animated,
     ScrollView,
     TouchableHighlight,
-    PropTypes,
     PixelRatio,
     Platform,
     Dimensions,
@@ -36,10 +35,6 @@ let styles = StyleSheet.create({
     navItemText: {
         marginTop: 6,
         fontSize: 13,
-        color: '#434343'
-    },
-    active: {
-        color: '#00afa5',
     },
     activeBottom: {
         position: 'absolute',
@@ -49,13 +44,18 @@ let styles = StyleSheet.create({
 
     },
     activeBottomLine: {
-        borderBottomColor: '#00afa5',
         borderBottomWidth: 1,
     }
 });
-let isIOS = Platform.OS === 'ios';
 let bottomAdded = -15;
 export default class SegmentedButton extends Component {
+    static defaultProps = {
+        tinyColor: '#434343',
+        activeTinyColor: '#00afa5'
+    }
+    static propTypes = {
+        items: PropTypes.array.isRequired,
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -72,7 +72,12 @@ export default class SegmentedButton extends Component {
     componentDidMount() {
 
         var thiz = this;
+
+        if(!thiz.props.items || !thiz.props.items.length){
+            return null
+        }
         setTimeout(() => {
+            console.log(123);
             thiz.refs[0].measureLayout(
                 ReactNative.findNodeHandle(thiz.refs.scrollView),
                 (ox, oy, width, height, pageX, pageY) => {
@@ -108,7 +113,7 @@ export default class SegmentedButton extends Component {
         });
         var item = thiz.refs[index];
         item.measureLayout(
-            ReactNative.findNodeHandle(this.refs.scrollView),
+            ReactNative.findNodeHandle(thiz.refs.scrollView),
             (ox, oy, width, height, pageX, pageY) => {
 
                 Animated.parallel([
@@ -136,44 +141,48 @@ export default class SegmentedButton extends Component {
     render() {
         var thiz = this;
         var navItems = thiz.props.items;
-        //var width = 300 / navItems.length;
-
-        var activeItemIndex = this.state.activeIndex;
+        if(!navItems || !navItems.length){
+            return null
+        }
+        var activeItemIndex = thiz.state.activeIndex;
         var doms = navItems.map(function (item, index) {
-            //console.log(index+'-------------------------------');
-            var key = "segment_" + index;
-
+            let key = `segment_${index}`;
+            let label;
+            if(typeof item === 'string'){
+                label = item;
+            }else {
+                label = item.text;
+            }
             if (activeItemIndex == index) {
                 return (
-                    <TouchableOpacity style={[styles.navItem,{marginBottom:1.5},item.touchStyle]} key={key} ref={index}>
-                        <Text style={[styles.navItemText,styles.active]}>{item.text}</Text>
+                    <TouchableOpacity style={[styles.navItem,{marginBottom:1.5}]} key={key} ref={index}>
+                        <Text style={[styles.navItemText,{color: thiz.props.activeTinyColor}]}>{label}</Text>
                     </TouchableOpacity>
                 );
             } else {
                 return (
-                    <TouchableOpacity style={[styles.navItem,{},item.touchStyle]} key={key} ref={index} onPress={(e)=>{
+                    <TouchableOpacity style={[styles.navItem,{}]} key={key} ref={index} onPress={(e)=>{
 
                         thiz._onSegmentBtnPress(e,index);
                     }}>
-                        <Text style={styles.navItemText}>{item.text}</Text>
+                        <Text style={[styles.navItemText,{color: thiz.props.tinyColor}]}>{label}</Text>
                     </TouchableOpacity>
                 );
             }
 
         });
         return (
-            <View style={[styles.scrollOuter,{alignItems:'flex-start',justifyContent: 'center',}]}>
+            <View style={[styles.scrollOuter,{alignItems:'flex-start',justifyContent: 'center'},thiz.props.style]}>
                 <ScrollView
                     ref="scrollView"
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     directionalLockEnabled={true}
                     automaticallyAdjustContentInsets={false}
-                    renderToHardwareTextureAndroid={true}
                 >
                     {doms}
-                    <Animated.View style={[styles.activeBottom,styles.activeBottomLine,{
-                    width:this.state.abWidth,
+                    <Animated.View style={[styles.activeBottom,styles.activeBottomLine,{borderColor: thiz.props.activeTinyColor},{
+                    width:thiz.state.abWidth,
                     transform: [                        // `transform`是一个有序数组（动画按顺序执行）
                         {translateX: thiz.state.x},
                     ]

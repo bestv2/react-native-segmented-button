@@ -1,32 +1,29 @@
 {
-  "name": "react-native-segmented-view",
-  "version": "1.0.1",
-  "description": "Segmented View for React Native (with animation)",
+  "name": "react-native-segmented-button",
+  "version": "1.0.0",
+  "description": "scrolled segmented button for react native",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lelandrichardson/react-native-segmented-view.git"
+    "url": "https://github.com/bestv2/react-native-segmented-button.git"
   },
   "keywords": [
     "react",
     "react-native",
     "react-component",
+    "segmentd-button",
+    "segmentdbutton",
     "segmented",
-    "view"
+    "scrolled"
+
   ],
-  "author": "Leland Richardson",
+  "author": "bestv2",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lelandrichardson/react-native-segmented-view/issues"
-  },
-  "homepage": "https://github.com/lelandrichardson/react-native-segmented-view",
   "dependencies": {
-    "react-tween-state": "0.0.5"
   },
   "peerDependencies": {
-    "react-native": "^0.4.1"
   }
 }

@@ -4,7 +4,7 @@
   "description": "scrolled segmented button for react native",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,6 @@
   ],
   "author": "bestv2",
   "license": "MIT",
-  "scripts": {
-    "test": "make test"
-  },
   "dependencies": {
   },
   "peerDependencies": {

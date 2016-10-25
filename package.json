@@ -22,6 +22,9 @@
   ],
   "author": "bestv2",
   "license": "MIT",
+  "scripts": {
+    "test": "make test"
+  },
   "dependencies": {
   },
   "peerDependencies": {

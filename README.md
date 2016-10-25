@@ -2,6 +2,8 @@
 react native scrolled segmented button
 
 ##install
+npm install react-native-segmented-button --save
+or
 npm install react-native-segmented-button@git@github.com:bestv2/react-native-segmented-button.git --save
 
 ##screenshots

@@ -77,7 +77,6 @@ export default class SegmentedButton extends Component {
             return null
         }
         setTimeout(() => {
-            console.log(123);
             thiz.refs[0].measureLayout(
                 ReactNative.findNodeHandle(thiz.refs.scrollView),
                 (ox, oy, width, height, pageX, pageY) => {

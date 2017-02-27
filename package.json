@@ -1,6 +1,6 @@
 {
   "name": "react-native-segmented-button",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "scrolled segmented button for react native",
   "main": "index.js",
   "scripts": {

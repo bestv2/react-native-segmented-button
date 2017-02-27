@@ -76,33 +76,33 @@ export default class SegmentedButton extends Component {
         if(!thiz.props.items || !thiz.props.items.length){
             return null
         }
-        setTimeout(() => {
-            thiz.refs[0].measureLayout(
-                ReactNative.findNodeHandle(thiz.refs.scrollView),
-                (ox, oy, width, height, pageX, pageY) => {
-
-                    Animated.parallel([          // 在decay之后并行执行：
-                        Animated.spring(  // 支持: spring, decay, timing，过渡的动画方式
-                            thiz.state.abWidth,
-                            {
-                                toValue: width + bottomAdded, // 目标值
-                                friction: 7 // 动画方式的参数
-                            }
-                        ),
-                        Animated.spring(  // 支持: spring, decay, timing，过渡的动画方式
-                            thiz.state.x,
-                            {
-                                toValue: ox - bottomAdded / 2,  // 目标值
-                                friction: 7 // 动画方式的参数
-                            }
-                        ),
-                    ]).start();
-
-                }
-            );
-        }, 0);
     }
+    onLayout(){
+        var thiz = this;
+        thiz.refs[0].measureLayout(
+            ReactNative.findNodeHandle(thiz.refs.scrollView),
+            (ox, oy, width, height, pageX, pageY) => {
+                console.log(width);
+                Animated.parallel([          // 在decay之后并行执行：
+                    Animated.spring(  // 支持: spring, decay, timing，过渡的动画方式
+                        thiz.state.abWidth,
+                        {
+                            toValue: width + bottomAdded, // 目标值
+                            friction: 7 // 动画方式的参数
+                        }
+                    ),
+                    Animated.spring(  // 支持: spring, decay, timing，过渡的动画方式
+                        thiz.state.x,
+                        {
+                            toValue: ox - bottomAdded / 2,  // 目标值
+                            friction: 7 // 动画方式的参数
+                        }
+                    ),
+                ]).start();
 
+            }
+        );
+    }
     _onSegmentBtnPress(e, index) {
         var thiz = this;
 
@@ -171,7 +171,7 @@ export default class SegmentedButton extends Component {
 
         });
         return (
-            <View style={[styles.scrollOuter,{alignItems:'flex-start',justifyContent: 'center'},thiz.props.style]}>
+            <View onLayout={this.onLayout.bind(this)} style={[styles.scrollOuter,{alignItems:'flex-start',justifyContent: 'center'},thiz.props.style]}>
                 <ScrollView
                     ref="scrollView"
                     horizontal={true}

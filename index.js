@@ -77,8 +77,13 @@ export default class SegmentedButton extends Component {
             return null
         }
     }
+    _firstLayout=true;
     onLayout(){
         var thiz = this;
+        if(!thiz._firstLayout){
+            return
+        }
+        thiz._firstLayout = false;
         thiz.refs[0].measureLayout(
             ReactNative.findNodeHandle(thiz.refs.scrollView),
             (ox, oy, width, height, pageX, pageY) => {
